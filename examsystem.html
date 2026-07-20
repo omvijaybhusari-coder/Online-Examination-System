@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pariksha — Online Examination Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="examsystem.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ================= LOGIN ================= -->
+  <section id="loginScreen">
+    <div class="login-card">
+      <div class="brand-row">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div class="brand-text">
+          <div class="name">Pariksha</div>
+          <div class="sub">Online Examination Portal</div>
+        </div>
+      </div>
+      <h1>Student Login</h1>
+      <p class="lead">Login karke apna General Knowledge test shuru karein.</p>
+
+      <div class="error-msg" id="loginError">Username ya password galat hai. Dobara try karein.</div>
+
+      <form id="loginForm">
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" autocomplete="username" placeholder="e.g. demo" required>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" autocomplete="current-password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn-primary">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          Login &amp; Continue
+        </button>
+      </form>
+
+      <div class="demo-hint">Demo login — Username: <b>demo</b> &nbsp;|&nbsp; Password: <b>demo123</b></div>
+    </div>
+  </section>
+
+  <!-- ================= INSTRUCTIONS ================= -->
+  <section id="instructionsScreen" class="hidden">
+    <div class="instr-card">
+      <div class="brand-row">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div class="brand-text">
+          <div class="name">Pariksha</div>
+          <div class="sub">Online Examination Portal</div>
+        </div>
+      </div>
+      <h1>General Knowledge Test</h1>
+      <p class="welcome" id="welcomeText">Welcome!</p>
+
+      <ul class="instr-list">
+        <li><span class="ico">20</span> Is test me total <b>20 MCQs</b> hain, har ek me 4 options.</li>
+        <li><span class="ico">⏱</span> Timer <b>20 minutes</b> ka hai — samay khatam hote hi exam apne aap submit ho jayega.</li>
+        <li><span class="ico">↔</span> Kisi bhi question par Previous/Next se ya palette se seedha jump kar sakte hain.</li>
+        <li><span class="ico">✓</span> "Mark for Review" se doubtful questions ko baad me revisit kar sakte hain.</li>
+        <li><span class="ico">↻</span> Exam ek baar me hi poora karein — beech me tab band mat karein.</li>
+      </ul>
+
+      <div class="instr-actions">
+        <button class="btn-ghost" id="logoutFromInstr">Logout</button>
+        <button class="btn-primary" id="startExamBtn">Start Exam</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EXAM ================= -->
+  <section id="examScreen" class="hidden">
+    <div class="exam-top">
+      <div class="brand-row">
+        <div class="brand-mark" style="width:32px;height:32px;border-radius:9px;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div class="exam-student">Candidate: <b id="studentNameLabel">—</b></div>
+      </div>
+      <div class="timer-box" id="timerBox">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span id="timerDisplay">20:00</span>
+      </div>
+    </div>
+
+    <div class="exam-body">
+      <div class="question-panel">
+        <div class="q-meta">
+          <span class="q-count" id="qCount">Question 1 of 20</span>
+          <button class="mark-review-btn" id="markReviewBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.8 12 16l-5.8 3.8 1.6-6.7L2.5 8.5l6.8-.6L12 1.5l2.7 6.4 6.8.6-5.3 4.6z"/></svg>
+            Mark for Review
+          </button>
+        </div>
+        <p class="q-text" id="qText">Loading question…</p>
+        <div class="options" id="optionsList"></div>
+
+        <div class="q-nav">
+          <button class="nav-btn" id="prevBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Previous
+          </button>
+          <button class="nav-btn clear" id="clearBtn">Clear response</button>
+          <button class="nav-btn" id="nextBtn">
+            Next
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <aside class="side-panel">
+        <div class="palette-card">
+          <h3>Question Palette</h3>
+          <div class="legend">
+            <div class="legend-row"><span class="legend-dot" style="background:var(--success)"></span> Answered</div>
+            <div class="legend-row"><span class="legend-dot" style="background:var(--danger)"></span> Not answered</div>
+            <div class="legend-row"><span class="legend-dot" style="background:var(--surface-2);border:1.5px solid var(--line)"></span> Not visited</div>
+            <div class="legend-row"><span class="legend-dot" style="background:var(--purple)"></span> Marked for review</div>
+          </div>
+          <div class="palette-grid" id="paletteGrid"></div>
+        </div>
+
+        <div class="submit-card">
+          <div class="submit-stat"><span>Attempted</span><b id="statAttempted">0 / 20</b></div>
+          <div class="submit-stat"><span>Marked for review</span><b id="statMarked">0</b></div>
+          <button class="btn-submit" id="submitBtn">Submit Exam</button>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= RESULT ================= -->
+  <section id="resultScreen" class="hidden">
+    <div class="result-wrap">
+      <div class="result-head">
+        <div class="eyebrow">Exam Completed</div>
+        <h1 id="resultTitle">Your Result</h1>
+        <p id="resultSub">Here's how you performed.</p>
+      </div>
+
+      <div class="result-top">
+        <div class="ring-wrap">
+          <svg width="170" height="170" viewBox="0 0 170 170">
+            <circle cx="85" cy="85" r="72" fill="none" stroke="var(--surface-2)" stroke-width="14"/>
+            <circle id="pctRing" cx="85" cy="85" r="72" fill="none" stroke="var(--primary)" stroke-width="14"
+                    stroke-linecap="round" transform="rotate(-90 85 85)"
+                    stroke-dasharray="452.4" stroke-dashoffset="452.4" style="transition:stroke-dashoffset 1s cubic-bezier(.19,1,.22,1)"/>
+            <text x="85" y="80" text-anchor="middle" font-family="Space Mono, monospace" font-size="30" font-weight="700" fill="var(--ink)" id="pctText">0%</text>
+            <text x="85" y="102" text-anchor="middle" font-family="Work Sans, sans-serif" font-size="12" fill="var(--ink-faint)">Percentage</text>
+          </svg>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-box"><div class="n" id="statTotal">20</div><div class="l">Total Questions</div></div>
+          <div class="stat-box"><div class="n" id="statAttemptedR">0</div><div class="l">Attempted</div></div>
+          <div class="stat-box"><div class="n" id="statUnattempted">0</div><div class="l">Unattempted</div></div>
+          <div class="stat-box correct"><div class="n" id="statCorrect">0</div><div class="l">Correct</div></div>
+          <div class="stat-box wrong"><div class="n" id="statWrong">0</div><div class="l">Wrong</div></div>
+          <div class="stat-box"><div class="n" id="statScore">0/20</div><div class="l">Final Score</div></div>
+        </div>
+      </div>
+
+      <div class="rank-banner">
+        <div class="medal">🏅</div>
+        <div>
+          <div class="rt" id="rankText">Your Rank: —</div>
+          <div class="rs" id="rankSub">Based on all attempts stored on this device.</div>
+        </div>
+      </div>
+
+      <div class="history-card">
+        <h3>Leaderboard — Recent Attempts</h3>
+        <table>
+          <thead><tr><th>Rank</th><th>Name</th><th>Score</th><th>Percentage</th><th>Date</th></tr></thead>
+          <tbody id="historyBody"></tbody>
+        </table>
+      </div>
+
+      <div class="result-actions">
+        <button class="btn-outline" id="reattemptBtn">Reattempt Exam</button>
+        <button class="btn-fill" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="modal-overlay" id="submitModal">
+  <div class="modal-box">
+    <h3>Submit Exam?</h3>
+    <p>Ek baar submit karne ke baad aap answers change nahi kar payenge.</p>
+    <div class="modal-stats">
+      <div class="modal-stat"><span class="n" id="modalAnswered">0</span><span class="l">Answered</span></div>
+      <div class="modal-stat"><span class="n" id="modalUnanswered">0</span><span class="l">Unanswered</span></div>
+      <div class="modal-stat"><span class="n" id="modalMarked">0</span><span class="l">Marked</span></div>
+    </div>
+    <div class="modal-actions">
+      <button class="cancel" id="modalCancel">Continue Exam</button>
+      <button class="confirm" id="modalConfirm">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="dot"></span><span id="toastText"></span></div>
+
+<script src="examsystem.js"></script>
+</body>
+</html>

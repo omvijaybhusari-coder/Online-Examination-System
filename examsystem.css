@@ -47,7 +47,7 @@
   input{ font-family:inherit; }
   .hidden{ display:none !important; }
 
-  /* ---------------- shared bits ---------------- */
+ 
   .app-shell{ min-height:100vh; display:flex; flex-direction:column; }
 
   .brand-row{ display:flex; align-items:center; gap:12px; }
@@ -72,7 +72,7 @@
   .toast .dot{ width:8px; height:8px; border-radius:50%; background:var(--success); flex-shrink:0; }
   .toast.warn .dot{ background:var(--danger); }
 
-  /* ================= LOGIN SCREEN ================= */
+
   #loginScreen{
     flex:1; display:flex; align-items:center; justify-content:center; padding:24px;
   }
@@ -117,7 +117,6 @@
   }
   .demo-hint b{ color:var(--ink-dim); font-family:var(--font-mono); }
 
-  /* ================= INSTRUCTIONS SCREEN ================= */
   #instructionsScreen{ flex:1; display:flex; align-items:center; justify-content:center; padding:24px; }
   .instr-card{
     background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-lg);
@@ -142,7 +141,7 @@
   }
   .btn-ghost:hover{ border-color:var(--primary); color:var(--primary); }
 
-  /* ================= EXAM SCREEN ================= */
+
   #examScreen{ flex:1; display:flex; flex-direction:column; }
   .exam-top{
     display:flex; align-items:center; justify-content:space-between; gap:16px;
@@ -208,7 +207,7 @@
   .nav-btn.clear{ background:none; border:none; color:var(--ink-faint); text-decoration:underline; text-underline-offset:3px; }
   .nav-btn.clear:hover{ color:var(--danger); }
 
-  /* palette sidebar */
+
   .side-panel{
     padding:26px 0 26px 22px; display:flex; flex-direction:column; gap:18px;
   }
@@ -247,7 +246,7 @@
   .btn-submit:hover{ background:#b73535; }
   .btn-submit:active{ transform:scale(0.98); }
 
-  /* ================= MODAL ================= */
+
   .modal-overlay{
     position:fixed; inset:0; background:rgba(20,26,34,0.55); backdrop-filter:blur(2px);
     display:flex; align-items:center; justify-content:center; z-index:90; padding:20px;
@@ -270,7 +269,6 @@
   .modal-actions .cancel{ background:var(--surface-2); color:var(--ink-dim); border:1px solid var(--line); }
   .modal-actions .confirm{ background:var(--danger); color:#fff; }
 
-  /* ================= RESULT SCREEN ================= */
   #resultScreen{ flex:1; padding:40px 24px 60px; }
   .result-wrap{ max-width:920px; margin:0 auto; }
   .result-head{ text-align:center; margin-bottom:34px; }

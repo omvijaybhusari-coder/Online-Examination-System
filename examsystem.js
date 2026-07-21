@@ -1,7 +1,6 @@
 (function(){
   "use strict";
 
-  /* ================= DATA ================= */
   const STUDENTS = [
     { username: "demo",  password: "demo123",  name: "Demo Student" },
     { username: "priya", password: "priya123", name: "Priya Sharma" },
@@ -37,15 +36,15 @@
   const RESULTS_KEY = "pariksha_results";
   const ACTIVE_EXAM_KEY = "pariksha_active_exam";
 
-  /* ================= STATE ================= */
-  let currentStudent = null;   // { username, name }
-  let answers = {};            // { questionIndex: optionIndex }
-  let marked = {};             // { questionIndex: true }
+
+  let currentStudent = null;  
+  let answers = {};            
+  let marked = {};             
   let currentIndex = 0;
-  let endTime = null;          // timestamp when exam should auto-submit
+  let endTime = null;         
   let timerInterval = null;
 
-  /* ================= DOM REFS ================= */
+
   const screens = {
     login: document.getElementById("loginScreen"),
     instructions: document.getElementById("instructionsScreen"),
@@ -84,7 +83,7 @@
   const toast = document.getElementById("toast");
   const toastText = document.getElementById("toastText");
 
-  /* ================= UTILITIES ================= */
+
   function showScreen(name){
     Object.values(screens).forEach(s => s.classList.add("hidden"));
     screens[name].classList.remove("hidden");
@@ -105,7 +104,7 @@
     return `${m}:${s}`;
   }
 
-  /* ================= LOCAL STORAGE: ACTIVE EXAM (resume support) ================= */
+
   function persistExamState(){
     const state = { student: currentStudent, answers, marked, currentIndex, endTime };
     try{ localStorage.setItem(ACTIVE_EXAM_KEY, JSON.stringify(state)); }
@@ -121,7 +120,7 @@
     try{ localStorage.removeItem(ACTIVE_EXAM_KEY); } catch(e){}
   }
 
-  /* ================= LOCAL STORAGE: RESULTS HISTORY ================= */
+
   function loadResults(){
     try{
       const raw = localStorage.getItem(RESULTS_KEY);
@@ -136,7 +135,6 @@
     return results;
   }
 
-  /* ================= LOGIN ================= */
   loginForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const username = document.getElementById("username").value.trim().toLowerCase();
@@ -161,7 +159,6 @@
     showScreen("login");
   });
 
-  /* ================= START / RESUME EXAM ================= */
   startExamBtn.addEventListener("click", () => {
     answers = {};
     marked = {};
@@ -179,7 +176,6 @@
     showScreen("exam");
   }
 
-  /* ================= TIMER ================= */
   function startTimer(){
     clearInterval(timerInterval);
     tick();
@@ -198,7 +194,7 @@
     timerBox.classList.toggle("warn", remaining <= 2 * 60 * 1000);
   }
 
-  /* ================= QUESTION RENDERING ================= */
+
   function renderQuestion(){
     const q = QUESTIONS[currentIndex];
     qCount.textContent = `Question ${currentIndex + 1} of ${TOTAL_QUESTIONS}`;
@@ -257,7 +253,6 @@
     if(e.key === "ArrowLeft") prevBtn.click();
   });
 
-  /* ================= PALETTE ================= */
   function buildPalette(){
     paletteGrid.innerHTML = QUESTIONS.map((_, i) => `<button class="pal-btn" data-goto="${i}">${i + 1}</button>`).join("");
   }
@@ -268,7 +263,7 @@
     if(isAnswered && isMarked) return "answered-marked";
     if(isMarked) return "marked";
     if(isAnswered) return "answered";
-    return null; // not-answered vs not-visited handled by visited tracking below
+    return null; 
   }
 
   const visited = {};
@@ -298,7 +293,7 @@
     statMarked.textContent = markedCount;
   }
 
-  /* ================= SUBMIT FLOW ================= */
+
   function openSubmitModal(){
     const attemptedCount = Object.keys(answers).length;
     const markedCount = Object.keys(marked).filter(k => marked[k]).length;
@@ -346,7 +341,6 @@
     renderResult(result, allResults, auto);
   }
 
-  /* ================= RESULT SCREEN ================= */
   function renderResult(result, allResults, auto){
     document.getElementById("resultTitle").textContent = `Well done, ${result.name}!`;
     document.getElementById("resultSub").textContent = auto
@@ -360,14 +354,14 @@
     document.getElementById("statWrong").textContent = result.wrong;
     document.getElementById("statScore").textContent = `${result.score}/${result.total}`;
 
-    // percentage ring
+
     const circumference = 452.4;
     const ring = document.getElementById("pctRing");
     const offset = circumference - (result.percentage / 100) * circumference;
     document.getElementById("pctText").textContent = `${result.percentage}%`;
     requestAnimationFrame(() => { ring.style.strokeDashoffset = offset; });
 
-    // rank
+    
     const sorted = allResults.slice().sort((a, b) => b.score - a.score || b.percentage - a.percentage);
     const rank = sorted.findIndex(r => r === result) + 1;
     document.getElementById("rankText").textContent = `Your Rank: #${rank} of ${allResults.length}`;
@@ -375,7 +369,7 @@
       ? "Top score on this device — great job!"
       : `Based on ${allResults.length} attempt${allResults.length === 1 ? "" : "s"} stored on this device.`;
 
-    // leaderboard (top 8, current attempt highlighted)
+ 
     const top = sorted.slice(0, 8);
     document.getElementById("historyBody").innerHTML = top.map((r, i) => `
       <tr class="${r === result ? "me" : ""}">
@@ -390,7 +384,7 @@
     showScreen("result");
   }
 
-  /* ================= REATTEMPT / LOGOUT ================= */
+ 
   document.getElementById("reattemptBtn").addEventListener("click", () => {
     answers = {}; marked = {}; currentIndex = 0;
     endTime = Date.now() + EXAM_DURATION_MS;
@@ -404,7 +398,7 @@
     showScreen("login");
   });
 
-  /* ================= INIT: attempt to resume an in-progress exam ================= */
+  
   (function init(){
     const state = loadExamState();
     if(state && state.endTime > Date.now()){
@@ -420,7 +414,7 @@
       showScreen("exam");
       showToast("Aapka pichla exam session resume ho gaya hai.");
     } else {
-      if(state) clearExamState(); // expired session cleanup
+      if(state) clearExamState(); 
       showScreen("login");
     }
   })();
